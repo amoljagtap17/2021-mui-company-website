@@ -6,6 +6,7 @@ import {
   Typography,
   Tabs,
   Tab,
+  Button,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { DesktopMac } from '@material-ui/icons'
@@ -34,6 +35,12 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 10,
     marginLeft: '25px',
   },
+  button: {
+    ...theme.typography.estimate,
+    borderRadius: '50px',
+    margin: '0 25px 0 50px',
+    height: '45px',
+  },
 }))
 
 export const Header = () => {
@@ -58,6 +65,13 @@ export const Header = () => {
               <Tab className={classes.tab} label="About Us" />
               <Tab className={classes.tab} label="Contact Us" />
             </Tabs>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+            >
+              Free Estimate
+            </Button>
           </Toolbar>
         </AppBar>
       </ElevationScroll>
