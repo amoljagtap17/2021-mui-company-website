@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import {
   AppBar,
   Toolbar,
@@ -42,28 +42,56 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 25px 0 50px',
     height: '45px',
   },
+  logo: {
+    padding: 0,
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+  },
 }))
 
 export const Header = () => {
   const classes = useStyles()
   const [value, setValue] = useState(0)
+  const location = useLocation()
 
   const onChangeHandler = (e, value) => {
     setValue(value)
   }
+
+  useEffect(() => {
+    const index = [
+      '/',
+      '/services',
+      '/revolution',
+      '/about',
+      '/contact',
+    ].findIndex((item) => location.pathname === item)
+
+    if (index !== -1) {
+      setValue(index)
+    }
+  }, [location.pathname])
 
   return (
     <>
       <ElevationScroll>
         <AppBar position="fixed">
           <Toolbar disableGutters>
-            <DesktopMac
-              color="secondary"
-              style={{ fontSize: 40, margin: 10 }}
-            />
-            <Typography variant="h6" color="secondary">
-              My Website
-            </Typography>
+            <Button
+              component={Link}
+              to="/"
+              className={classes.logo}
+              disableRipple
+            >
+              <DesktopMac
+                color="secondary"
+                style={{ fontSize: 40, margin: 10 }}
+              />
+              <Typography variant="h6" color="secondary">
+                My Website
+              </Typography>
+            </Button>
             <Tabs
               value={value}
               onChange={onChangeHandler}
