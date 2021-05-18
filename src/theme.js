@@ -19,5 +19,11 @@ export const theme = createMuiTheme({
   },
   typography: {
     fontFamily: "'Montserrat', sans-serif",
+    tab: {
+      fontFamily: 'Raleway',
+      textTransform: 'none',
+      fontWeight: 700,
+      fontSize: '1rem',
+    },
   },
 })

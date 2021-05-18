@@ -4,6 +4,8 @@ import {
   Toolbar,
   useScrollTrigger,
   Typography,
+  Tabs,
+  Tab,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { DesktopMac } from '@material-ui/icons'
@@ -24,6 +26,14 @@ const useStyles = makeStyles((theme) => ({
   margin: {
     ...theme.mixins.toolbar,
   },
+  tabs: {
+    marginLeft: 'auto',
+  },
+  tab: {
+    ...theme.typography.tab,
+    minWidth: 10,
+    marginLeft: '25px',
+  },
 }))
 
 export const Header = () => {
@@ -41,6 +51,13 @@ export const Header = () => {
             <Typography variant="h6" color="secondary">
               My Website
             </Typography>
+            <Tabs className={classes.tabs}>
+              <Tab className={classes.tab} label="Home" />
+              <Tab className={classes.tab} label="Services" />
+              <Tab className={classes.tab} label="The Revolution" />
+              <Tab className={classes.tab} label="About Us" />
+              <Tab className={classes.tab} label="Contact Us" />
+            </Tabs>
           </Toolbar>
         </AppBar>
       </ElevationScroll>
