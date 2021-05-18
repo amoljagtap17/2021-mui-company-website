@@ -8,6 +8,8 @@ import {
   Tabs,
   Tab,
   Button,
+  Menu,
+  MenuItem,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { DesktopMac } from '@material-ui/icons'
@@ -48,16 +50,66 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'transparent',
     },
   },
+  menu: {
+    backgroundColor: theme.palette.common.appBlue,
+    color: 'white',
+    borderRadius: '0px',
+  },
+  menuItem: {
+    ...theme.typography.tab,
+    opacity: 0.7,
+    '&:hover': {
+      opacity: 1,
+    },
+  },
 }))
 
 export const Header = () => {
   const classes = useStyles()
   const [value, setValue] = useState(0)
   const location = useLocation()
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [open, setOpen] = useState(false)
+  const [selectedIndex, setSelectedIndex] = useState(0)
 
   const onChangeHandler = (e, value) => {
     setValue(value)
   }
+
+  const onClickHandler = (e) => {
+    setAnchorEl(e.currentTarget)
+    setOpen(true)
+  }
+
+  const onCloseHandler = (e) => {
+    setAnchorEl(null)
+    setOpen(false)
+  }
+
+  const onMenuItemClickHandler = (e, i) => {
+    setAnchorEl(null)
+    setOpen(false)
+    setSelectedIndex(i)
+  }
+
+  const menuOptions = [
+    {
+      name: 'Services',
+      link: '/services',
+    },
+    {
+      name: 'Custom Software Development',
+      link: '/customsoftware',
+    },
+    {
+      name: 'Mobile App Development',
+      link: '/mobileapps',
+    },
+    {
+      name: 'Website Development',
+      link: '/websites',
+    },
+  ]
 
   useEffect(() => {
     const index = [
@@ -68,8 +120,20 @@ export const Header = () => {
       '/contact',
     ].findIndex((item) => location.pathname === item)
 
-    if (index !== -1) {
+    if (index !== -1 && index !== value) {
       setValue(index)
+    }
+
+    const servicesIndex = [
+      '/services',
+      '/customsoftware',
+      '/mobileapps',
+      '/websites',
+    ].findIndex((item) => location.pathname === item)
+
+    if (servicesIndex !== -1 && servicesIndex !== selectedIndex) {
+      setValue(1)
+      setSelectedIndex(servicesIndex)
     }
   }, [location.pathname])
 
@@ -105,8 +169,11 @@ export const Header = () => {
                 label="Home"
               />
               <Tab
+                aria-owns={anchorEl ? 'services-menu' : undefined}
+                aria-haspopup={anchorEl ? 'true' : undefined}
                 className={classes.tab}
                 component={Link}
+                onMouseOver={(evt) => onClickHandler(evt)}
                 to="/services"
                 label="Services"
               />
@@ -136,6 +203,32 @@ export const Header = () => {
             >
               Free Estimate
             </Button>
+            <Menu
+              id="services-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={onCloseHandler}
+              MenuListProps={{ onMouseLeave: onCloseHandler }}
+              classes={{ paper: classes.menu }}
+              elevation={0}
+            >
+              {menuOptions.map((option, i) => (
+                <MenuItem
+                  key={i}
+                  onClick={(evt) => {
+                    onMenuItemClickHandler(evt, i)
+                    setValue(1)
+                    onCloseHandler()
+                  }}
+                  selected={i === selectedIndex && value === 1}
+                  component={Link}
+                  to={option.link}
+                  classes={{ root: classes.menuItem }}
+                >
+                  {option.name}
+                </MenuItem>
+              ))}
+            </Menu>
           </Toolbar>
         </AppBar>
       </ElevationScroll>
