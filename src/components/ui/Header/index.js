@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import {
   AppBar,
   Toolbar,
@@ -45,6 +46,11 @@ const useStyles = makeStyles((theme) => ({
 
 export const Header = () => {
   const classes = useStyles()
+  const [value, setValue] = useState(0)
+
+  const onChangeHandler = (e, value) => {
+    setValue(value)
+  }
 
   return (
     <>
@@ -58,12 +64,42 @@ export const Header = () => {
             <Typography variant="h6" color="secondary">
               My Website
             </Typography>
-            <Tabs className={classes.tabs}>
-              <Tab className={classes.tab} label="Home" />
-              <Tab className={classes.tab} label="Services" />
-              <Tab className={classes.tab} label="The Revolution" />
-              <Tab className={classes.tab} label="About Us" />
-              <Tab className={classes.tab} label="Contact Us" />
+            <Tabs
+              value={value}
+              onChange={onChangeHandler}
+              className={classes.tabs}
+              /* indicatorColor="primary" */
+            >
+              <Tab
+                className={classes.tab}
+                component={Link}
+                to="/"
+                label="Home"
+              />
+              <Tab
+                className={classes.tab}
+                component={Link}
+                to="/services"
+                label="Services"
+              />
+              <Tab
+                className={classes.tab}
+                component={Link}
+                to="/revolution"
+                label="The Revolution"
+              />
+              <Tab
+                className={classes.tab}
+                component={Link}
+                to="/about"
+                label="About Us"
+              />
+              <Tab
+                className={classes.tab}
+                component={Link}
+                to="/contact"
+                label="Contact Us"
+              />
             </Tabs>
             <Button
               variant="contained"
