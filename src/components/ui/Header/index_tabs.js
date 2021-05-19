@@ -11,11 +11,9 @@ import {
   Menu,
   MenuItem,
   useMediaQuery,
-  SwipeableDrawer,
-  IconButton,
 } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { DesktopMac, Menu as MenuIcon } from '@material-ui/icons'
+import { DesktopMac } from '@material-ui/icons'
 
 const ElevationScroll = (props) => {
   const { children } = props
@@ -65,16 +63,6 @@ const useStyles = makeStyles((theme) => ({
       opacity: 1,
     },
   },
-  drawerIconButton: {
-    marginLeft: 'auto',
-    '&:hover': {
-      backgroundColor: 'transparent',
-    },
-  },
-  drawerIcon: {
-    height: '50px',
-    width: '50px',
-  },
 }))
 
 export const Header = () => {
@@ -84,29 +72,26 @@ export const Header = () => {
   const [value, setValue] = useState(0)
   const location = useLocation()
   const [anchorEl, setAnchorEl] = useState(null)
-  const [openMenu, setOpenMenu] = useState(false)
+  const [open, setOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const [openDrawer, setOpenDrawer] = useState(false)
 
-  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
-
-  const onChangeHandler = (e, newValue) => {
-    setValue(newValue)
+  const onChangeHandler = (e, value) => {
+    setValue(value)
   }
 
   const onClickHandler = (e) => {
     setAnchorEl(e.currentTarget)
-    setOpenMenu(true)
+    setOpen(true)
   }
 
   const onCloseHandler = (e) => {
     setAnchorEl(null)
-    setOpenMenu(false)
+    setOpen(false)
   }
 
   const onMenuItemClickHandler = (e, i) => {
     setAnchorEl(null)
-    setOpenMenu(false)
+    setOpen(false)
     setSelectedIndex(i)
   }
 
@@ -200,7 +185,7 @@ export const Header = () => {
       <Menu
         id="services-menu"
         anchorEl={anchorEl}
-        open={openMenu}
+        open={open}
         onClose={onCloseHandler}
         MenuListProps={{ onMouseLeave: onCloseHandler }}
         classes={{ paper: classes.menu }}
@@ -226,27 +211,6 @@ export const Header = () => {
     </>
   )
 
-  const drawer = (
-    <>
-      <SwipeableDrawer
-        disableBackdropTransition={!iOS}
-        disableDiscovery={iOS}
-        open={openDrawer}
-        onClose={() => setOpenDrawer(false)}
-        onOpen={() => setOpenDrawer(true)}
-      >
-        Example Drawer
-      </SwipeableDrawer>
-      <IconButton
-        className={classes.drawerIconButton}
-        onClick={() => setOpenDrawer(!openDrawer)}
-        disableRipple
-      >
-        <MenuIcon className={classes.drawerIcon} color="secondary" />
-      </IconButton>
-    </>
-  )
-
   return (
     <>
       <ElevationScroll>
@@ -266,7 +230,7 @@ export const Header = () => {
                 My Website
               </Typography>
             </Button>
-            {matches ? drawer : tabs}
+            {matches ? null : tabs}
           </Toolbar>
         </AppBar>
       </ElevationScroll>
