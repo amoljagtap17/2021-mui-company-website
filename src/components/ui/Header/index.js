@@ -90,7 +90,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.common.appOrange,
   },
   drawerItemSelected: {
-    opacity: 1,
+    '& .MuiListItemText-root': {
+      opacity: 1,
+    },
+  },
+  appBar: {
+    zIndex: theme.zIndex.modal + 1,
   },
 }))
 
@@ -226,8 +231,8 @@ export const Header = () => {
       setSelectedIndex(servicesIndex)
     } */
 
-    // eslint-disable-next-line
     // }, [location.pathname])
+    // eslint-disable-next-line
   }, [value, menuOptions, selectedIndex, routes])
 
   const tabs = (
@@ -262,11 +267,12 @@ export const Header = () => {
         MenuListProps={{ onMouseLeave: onCloseHandler }}
         classes={{ paper: classes.menu }}
         elevation={0}
+        style={{ zIndex: 1302 }}
         keepMounted
       >
         {menuOptions.map((option, i) => (
           <MenuItem
-            key={i}
+            key={`${option}${i}`}
             onClick={(evt) => {
               onMenuItemClickHandler(evt, i)
               setValue(1)
@@ -294,6 +300,7 @@ export const Header = () => {
         onOpen={() => setOpenDrawer(true)}
         classes={{ paper: classes.swipeableDrawer }}
       >
+        <div className={classes.margin}></div>
         <List disablePadding>
           {routes.map((route) => (
             <ListItem
@@ -307,13 +314,10 @@ export const Header = () => {
               component={Link}
               to={route.link}
               selected={value === route.activeIndex}
+              classes={{ selected: classes.drawerItemSelected }}
             >
               <ListItemText
-                className={
-                  value === route.activeIndex
-                    ? [classes.drawerItemText, classes.drawerItemSelected]
-                    : classes.drawerItemText
-                }
+                className={classes.drawerItemText}
                 disableTypography
               >
                 {route.name}
@@ -329,17 +333,13 @@ export const Header = () => {
             button
             component={Link}
             to="/estimate"
-            className={classes.drawerItemEstimate}
             selected={value === 5}
+            classes={{
+              root: classes.drawerItemEstimate,
+              selected: classes.drawerItemSelected,
+            }}
           >
-            <ListItemText
-              className={
-                value === 5
-                  ? [classes.drawerItemText, classes.drawerItemSelected]
-                  : classes.drawerItemText
-              }
-              disableTypography
-            >
+            <ListItemText className={classes.drawerItemText} disableTypography>
               Free Estimate
             </ListItemText>
           </ListItem>
@@ -358,7 +358,7 @@ export const Header = () => {
   return (
     <>
       <ElevationScroll>
-        <AppBar position="fixed">
+        <AppBar position="fixed" className={classes.appBar}>
           <Toolbar disableGutters>
             <Button
               component={Link}
