@@ -131,23 +131,78 @@ export const Header = () => {
     {
       name: 'Services',
       link: '/services',
+      activeIndex: 1,
+      selectedIndex: 0,
     },
     {
       name: 'Custom Software Development',
       link: '/customsoftware',
+      activeIndex: 1,
+      selectedIndex: 1,
     },
     {
       name: 'Mobile App Development',
       link: '/mobileapps',
+      activeIndex: 1,
+      selectedIndex: 2,
     },
     {
       name: 'Website Development',
       link: '/websites',
+      activeIndex: 1,
+      selectedIndex: 3,
+    },
+  ]
+
+  const routes = [
+    {
+      name: 'Home',
+      link: '/',
+      activeIndex: 0,
+    },
+    {
+      name: 'Services',
+      link: '/services',
+      activeIndex: 1,
+      ariaOwns: anchorEl ? 'services-menu' : undefined,
+      ariaPopup: anchorEl ? 'true' : undefined,
+      mouseOver: (evt) => onClickHandler(evt),
+    },
+    {
+      name: 'The Revolution',
+      link: '/revolution',
+      activeIndex: 2,
+    },
+    {
+      name: 'About Us',
+      link: '/about',
+      activeIndex: 3,
+    },
+    {
+      name: 'Contact Us',
+      link: '/contact',
+      activeIndex: 4,
     },
   ]
 
   useEffect(() => {
-    const index = [
+    ;[...menuOptions, ...routes].forEach((route) => {
+      switch (location.pathname) {
+        case `${route.link}`:
+          if (value !== route.activeIndex) {
+            setValue(route.activeIndex)
+
+            if (route.selectedIndex && route.selectedIndex !== selectedIndex) {
+              setSelectedIndex(route.selectedIndex)
+            }
+          }
+          break
+        default:
+          break
+      }
+    })
+
+    /* const index = [
       '/',
       '/services',
       '/revolution',
@@ -169,10 +224,11 @@ export const Header = () => {
     if (servicesIndex !== -1 && servicesIndex !== selectedIndex) {
       setValue(1)
       setSelectedIndex(servicesIndex)
-    }
+    } */
 
     // eslint-disable-next-line
-  }, [location.pathname])
+    // }, [location.pathname])
+  }, [value, menuOptions, selectedIndex, routes])
 
   const tabs = (
     <>
@@ -182,34 +238,18 @@ export const Header = () => {
         className={classes.tabs}
         /* indicatorColor="primary" */
       >
-        <Tab className={classes.tab} component={Link} to="/" label="Home" />
-        <Tab
-          aria-owns={anchorEl ? 'services-menu' : undefined}
-          aria-haspopup={anchorEl ? 'true' : undefined}
-          className={classes.tab}
-          component={Link}
-          onMouseOver={(evt) => onClickHandler(evt)}
-          to="/services"
-          label="Services"
-        />
-        <Tab
-          className={classes.tab}
-          component={Link}
-          to="/revolution"
-          label="The Revolution"
-        />
-        <Tab
-          className={classes.tab}
-          component={Link}
-          to="/about"
-          label="About Us"
-        />
-        <Tab
-          className={classes.tab}
-          component={Link}
-          to="/contact"
-          label="Contact Us"
-        />
+        {routes.map((route, index) => (
+          <Tab
+            key={`${route}${index}`}
+            className={classes.tab}
+            component={Link}
+            to={route.link}
+            label={route.name}
+            aria-owns={route.ariaOwns}
+            aria-haspopup={route.ariaPopup}
+            onMouseOver={route.mouseOver}
+          />
+        ))}
       </Tabs>
       <Button variant="contained" color="secondary" className={classes.button}>
         Free Estimate
@@ -222,6 +262,7 @@ export const Header = () => {
         MenuListProps={{ onMouseLeave: onCloseHandler }}
         classes={{ paper: classes.menu }}
         elevation={0}
+        keepMounted
       >
         {menuOptions.map((option, i) => (
           <MenuItem
@@ -254,116 +295,31 @@ export const Header = () => {
         classes={{ paper: classes.swipeableDrawer }}
       >
         <List disablePadding>
-          <ListItem
-            onClick={() => {
-              setOpenDrawer(false)
-              setValue(0)
-            }}
-            divider
-            button
-            component={Link}
-            to="/"
-            selected={value === 0}
-          >
-            <ListItemText
-              className={
-                value === 0
-                  ? [classes.drawerItemText, classes.drawerItemSelected]
-                  : classes.drawerItemText
-              }
-              disableTypography
+          {routes.map((route) => (
+            <ListItem
+              key={`${route}${route.activeIndex}`}
+              onClick={() => {
+                setOpenDrawer(false)
+                setValue(route.activeIndex)
+              }}
+              divider
+              button
+              component={Link}
+              to={route.link}
+              selected={value === route.activeIndex}
             >
-              Home
-            </ListItemText>
-          </ListItem>
-          <ListItem
-            onClick={() => {
-              setOpenDrawer(false)
-              setValue(1)
-            }}
-            divider
-            button
-            component={Link}
-            to="/services"
-            selected={value === 1}
-          >
-            <ListItemText
-              className={
-                value === 1
-                  ? [classes.drawerItemText, classes.drawerItemSelected]
-                  : classes.drawerItemText
-              }
-              disableTypography
-            >
-              Services
-            </ListItemText>
-          </ListItem>
-          <ListItem
-            onClick={() => {
-              setOpenDrawer(false)
-              setValue(2)
-            }}
-            divider
-            button
-            component={Link}
-            to="/revolution"
-            selected={value === 2}
-          >
-            <ListItemText
-              className={
-                value === 2
-                  ? [classes.drawerItemText, classes.drawerItemSelected]
-                  : classes.drawerItemText
-              }
-              disableTypography
-            >
-              The Revolution
-            </ListItemText>
-          </ListItem>
-          <ListItem
-            onClick={() => {
-              setOpenDrawer(false)
-              setValue(3)
-            }}
-            divider
-            button
-            component={Link}
-            to="/about"
-            selected={value === 3}
-          >
-            <ListItemText
-              className={
-                value === 3
-                  ? [classes.drawerItemText, classes.drawerItemSelected]
-                  : classes.drawerItemText
-              }
-              disableTypography
-            >
-              About Us
-            </ListItemText>
-          </ListItem>
-          <ListItem
-            onClick={() => {
-              setOpenDrawer(false)
-              setValue(4)
-            }}
-            divider
-            button
-            component={Link}
-            to="/contact"
-            selected={value === 4}
-          >
-            <ListItemText
-              className={
-                value === 4
-                  ? [classes.drawerItemText, classes.drawerItemSelected]
-                  : classes.drawerItemText
-              }
-              disableTypography
-            >
-              Contact Us
-            </ListItemText>
-          </ListItem>
+              <ListItemText
+                className={
+                  value === route.activeIndex
+                    ? [classes.drawerItemText, classes.drawerItemSelected]
+                    : classes.drawerItemText
+                }
+                disableTypography
+              >
+                {route.name}
+              </ListItemText>
+            </ListItem>
+          ))}
           <ListItem
             onClick={() => {
               setOpenDrawer(false)
