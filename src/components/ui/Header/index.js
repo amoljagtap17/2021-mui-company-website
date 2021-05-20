@@ -191,7 +191,9 @@ export const Header = () => {
   ]
 
   useEffect(() => {
-    ;[...menuOptions, ...routes].forEach((route) => {
+    const options = [...menuOptions, ...routes]
+
+    options.forEach((route) => {
       switch (location.pathname) {
         case `${route.link}`:
           if (value !== route.activeIndex) {
@@ -207,31 +209,6 @@ export const Header = () => {
       }
     })
 
-    /* const index = [
-      '/',
-      '/services',
-      '/revolution',
-      '/about',
-      '/contact',
-    ].findIndex((item) => location.pathname === item)
-
-    if (index !== -1 && index !== value) {
-      setValue(index)
-    }
-
-    const servicesIndex = [
-      '/services',
-      '/customsoftware',
-      '/mobileapps',
-      '/websites',
-    ].findIndex((item) => location.pathname === item)
-
-    if (servicesIndex !== -1 && servicesIndex !== selectedIndex) {
-      setValue(1)
-      setSelectedIndex(servicesIndex)
-    } */
-
-    // }, [location.pathname])
     // eslint-disable-next-line
   }, [value, menuOptions, selectedIndex, routes])
 

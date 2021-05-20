@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { Header } from 'components/ui'
+import { Header, Footer } from 'components/ui'
 
 export const Routes = () => (
   <Router>
@@ -33,5 +33,6 @@ export const Routes = () => (
         <h1>Estimate</h1>
       </Route>
     </Switch>
+    <Footer />
   </Router>
 )
