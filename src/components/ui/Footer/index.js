@@ -37,7 +37,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Footer = () => {
+export const Footer = ({
+  value,
+  setValue,
+  selectedIndex,
+  setSelectedIndex,
+}) => {
   const classes = useStyles()
 
   return (
@@ -45,20 +50,39 @@ export const Footer = () => {
       <Grid container justify="center" className={classes.container}>
         <Grid item className={classes.gridItem}>
           <Grid container direction="column">
-            <Grid item component={Link} to="/" className={classes.link}>
+            <Grid
+              item
+              component={Link}
+              to="/"
+              onClick={() => setValue(0)}
+              className={classes.link}
+            >
               Home
             </Grid>
           </Grid>
         </Grid>
         <Grid item className={classes.gridItem}>
           <Grid container direction="column" spacing={2}>
-            <Grid item component={Link} to="/services" className={classes.link}>
+            <Grid
+              item
+              component={Link}
+              to="/services"
+              onClick={() => {
+                setValue(1)
+                setSelectedIndex(0)
+              }}
+              className={classes.link}
+            >
               Services
             </Grid>
             <Grid
               item
               component={Link}
               to="/customsoftware"
+              onClick={() => {
+                setValue(1)
+                setSelectedIndex(1)
+              }}
               className={classes.link}
             >
               Custom Software Development
@@ -67,11 +91,24 @@ export const Footer = () => {
               item
               component={Link}
               to="/mobileapps"
+              onClick={() => {
+                setValue(1)
+                setSelectedIndex(2)
+              }}
               className={classes.link}
             >
               Mobile App development
             </Grid>
-            <Grid item component={Link} to="/websites" className={classes.link}>
+            <Grid
+              item
+              component={Link}
+              to="/websites"
+              onClick={() => {
+                setValue(1)
+                setSelectedIndex(3)
+              }}
+              className={classes.link}
+            >
               Website Development
             </Grid>
           </Grid>
@@ -82,6 +119,7 @@ export const Footer = () => {
               item
               component={Link}
               to="/revolution"
+              onClick={() => setValue(2)}
               className={classes.link}
             >
               The Revolution
@@ -90,6 +128,7 @@ export const Footer = () => {
               item
               component={Link}
               to="/revolution"
+              onClick={() => setValue(2)}
               className={classes.link}
             >
               Vision
@@ -98,6 +137,7 @@ export const Footer = () => {
               item
               component={Link}
               to="/revolution"
+              onClick={() => setValue(2)}
               className={classes.link}
             >
               Technology
@@ -106,6 +146,7 @@ export const Footer = () => {
               item
               component={Link}
               to="/revolution"
+              onClick={() => setValue(2)}
               className={classes.link}
             >
               Process
@@ -114,20 +155,44 @@ export const Footer = () => {
         </Grid>
         <Grid item className={classes.gridItem}>
           <Grid container direction="column" spacing={2}>
-            <Grid item component={Link} to="/about" className={classes.link}>
+            <Grid
+              item
+              component={Link}
+              to="/about"
+              onClick={() => setValue(3)}
+              className={classes.link}
+            >
               About Us
             </Grid>
-            <Grid item component={Link} to="/about" className={classes.link}>
+            <Grid
+              item
+              component={Link}
+              to="/about"
+              onClick={() => setValue(3)}
+              className={classes.link}
+            >
               History
             </Grid>
-            <Grid item component={Link} to="/about" className={classes.link}>
+            <Grid
+              item
+              component={Link}
+              to="/about"
+              onClick={() => setValue(3)}
+              className={classes.link}
+            >
               Team
             </Grid>
           </Grid>
         </Grid>
         <Grid item className={classes.gridItem}>
           <Grid container direction="column" spacing={2}>
-            <Grid item component={Link} to="/contact" className={classes.link}>
+            <Grid
+              item
+              component={Link}
+              to="/contact"
+              onClick={() => setValue(4)}
+              className={classes.link}
+            >
               Contact Us
             </Grid>
           </Grid>
